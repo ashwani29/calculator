@@ -22,7 +22,7 @@ The API listens on `http://localhost:8080`. In a second terminal:
 
 ```sh
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
 
@@ -86,7 +86,7 @@ If Go and Node.js are already installed locally, run the suites directly:
 
 ```sh
 (cd backend && go test -coverpkg=./internal/... -cover ./tests)
-(cd frontend && npm install && npm test -- --run)
+(cd frontend && npm ci && npm test -- --run)
 ```
 
 ## Design decisions and assumptions
@@ -107,10 +107,10 @@ AI tools assisted with implementation and refinements. These are summaries of th
 - Set up Docker to build and run the application.
 - Add request logging and use the Strategy pattern for calculator operations.
 - Enforce an operand range in both the frontend and backend.
-Test cases with these expected checks:
-- Calculator logic: For add, subtract, multiply, divide, power, square root, and percent, assert that the returned result equals the expected value.
-- Invalid calculations: Assert that missing operands, unsupported operations, non-finite values, and operands outside the inclusive ±1 trillion range return the expected error. Assert that the boundary values themselves are accepted.
-- HTTP API: Assert that valid requests return HTTP 200 with a JSON result; malformed JSON, wrong field types, missing fields, extra fields, and out-of-range operands return HTTP 400 with a JSON error; division by zero and negative square roots return HTTP 422 with a JSON error.
-- Frontend: Assert that missing or out-of-range input displays a validation message without sending a calculation request; valid input sends the expected operation and operands and displays the returned result; API errors are displayed to the user.
-Put each test in the appropriate backend or frontend test file. Don’t change application behavior unless a test exposes a bug.
+-Test cases with these expected checks:
+  - Calculator logic: For add, subtract, multiply, divide, power, square root, and percent, assert that the returned result equals the expected value.
+  - Invalid calculations: Assert that missing operands, unsupported operations, non-finite values, and operands outside the inclusive ±1 trillion range return the expected error. Assert that the boundary values themselves are accepted.
+  - HTTP API: Assert that valid requests return HTTP 200 with a JSON result; malformed JSON, wrong field types, missing fields, extra fields, and out-of-range operands return HTTP 400 with a JSON error; division by zero and negative square roots return HTTP 422 with a JSON error.
+  - Frontend: Assert that missing or out-of-range input displays a validation message without sending a calculation request; valid input sends the expected operation and operands and displays the returned result; API errors are displayed to the user.
+ - Put each test in the appropriate backend or frontend test file. Don’t change application behavior unless a test exposes a bug.
 - Organize the tests and create browsable coverage reports in almost similar format.
