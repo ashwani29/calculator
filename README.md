@@ -107,7 +107,7 @@ AI tools assisted with implementation and refinements. These are summaries of th
 - Set up Docker to build and run the application.
 - Add request logging and use the Strategy pattern for calculator operations.
 - Enforce an operand range in both the frontend and backend.
--Test cases with these expected checks:
+- Test cases with these expected checks:
   - Calculator logic: For add, subtract, multiply, divide, power, square root, and percent, assert that the returned result equals the expected value.
   - Invalid calculations: Assert that missing operands, unsupported operations, non-finite values, and operands outside the inclusive ±1 trillion range return the expected error. Assert that the boundary values themselves are accepted.
   - HTTP API: Assert that valid requests return HTTP 200 with a JSON result; malformed JSON, wrong field types, missing fields, extra fields, and out-of-range operands return HTTP 400 with a JSON error; division by zero and negative square roots return HTTP 422 with a JSON error.
