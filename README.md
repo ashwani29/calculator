@@ -9,6 +9,16 @@ A responsive React + TypeScript calculator backed by a small Go REST API. Arithm
 
 If you don't want to install Go and Node locally, use the Docker option below. Docker Desktop is the only local prerequisite for that path.
 
+## Run from a fresh clone with Docker
+
+Install [Docker Desktop](https://www.docker.com/products/docker-desktop/), then run this from the repository root:
+
+```sh
+docker compose up --build
+```
+
+Open `http://localhost:8080`. The single root-level `Dockerfile` has separate build stages for the Go API and React frontend, and Compose runs them as two containers. Node and Go do not need to be installed on the host. Stop the app with `Ctrl+C` (or run `docker compose down` in another terminal).
+
 ## Run locally
 
 In one terminal:
@@ -26,32 +36,41 @@ npm ci
 npm run dev
 ```
 
-Open the URL printed by Vite (normally `http://localhost:5173`). Set `VITE_API_URL` if the API is hosted somewhere other than `http://localhost:8080`.
-
-## Run from a fresh clone with Docker
-
-Install [Docker Desktop](https://www.docker.com/products/docker-desktop/), then run this from the repository root:
+Open the URL printed by Vite (normally `http://localhost:5173`). During local development, Vite proxies `/api` and `/health` to `http://localhost:8080`. If the API is hosted at another URL, set `VITE_API_URL` when starting Vite, for example:
 
 ```sh
-docker compose up --build
+VITE_API_URL=https://api.example.com npm run dev
 ```
 
-Open `http://localhost:8080`. The single root-level `Dockerfile` has separate build stages for the Go API and React frontend, and Compose runs them as two containers. Node and Go do not need to be installed on the host. Stop the app with `Ctrl+C` (or run `docker compose down` in another terminal).
 
-## API
 
-`POST /api/calculate` accepts JSON and returns the calculated numeric result:
+## API with EXAMPLES
+
+The examples below use `http://localhost:8080` as the base URL. `POST /api/calculate` accepts one JSON operation and returns either a `result` or an `error` field.
+
+Addition:
 
 ```sh
-curl -s http://localhost:8080/api/calculate \
+curl -i http://localhost:8080/api/calculate \
   -H 'Content-Type: application/json' \
   -d '{"operation":"add","a":12,"b":5}'
+# HTTP/1.1 200 OK
 # {"result":17}
+```
+
+Square root is unary and needs only `a`:
+
+```sh
+curl -i http://localhost:8080/api/calculate \
+  -H 'Content-Type: application/json' \
+  -d '{"operation":"sqrt","a":81}'
+# HTTP/1.1 200 OK
+# {"result":9}
 ```
 
 Supported operations: `add`, `subtract`, `multiply`, `divide`, `power`, `sqrt`, and `percent`. Binary operations take `a` and `b`; square root takes `a`; percent returns `a * b / 100`. Each provided operand must be a JSON number within the inclusive range `-1,000,000,000,000` to `1,000,000,000,000`. The frontend displays this range and checks values before sending a request; the backend validates JSON field types and enforces the same limit. Invalid JSON, wrong field types, missing values, out-of-range operands, unknown operations, division by zero, negative square roots, and non-finite results return a JSON error with an appropriate 4xx status.
 
-For example, an operand outside the supported range returns HTTP `400`:
+An operand outside the supported range returns HTTP `400 Bad Request`:
 
 ```sh
 curl -i http://localhost:8080/api/calculate \
@@ -60,9 +79,33 @@ curl -i http://localhost:8080/api/calculate \
 # {"error":"operand must be between -1000000000000 and 1000000000000"}
 ```
 
-Operands must be JSON numbers. A string operand such as `"a":"12"` returns HTTP `400` with `{"error":"field a must be a valid number"}`.
+Division by zero returns HTTP `422 Unprocessable Entity`:
 
-`GET /health` returns `{"status":"ok"}`.
+```sh
+curl -i http://localhost:8080/api/calculate \
+  -H 'Content-Type: application/json' \
+  -d '{"operation":"divide","a":12,"b":0}'
+# HTTP/1.1 422 Unprocessable Entity
+# {"error":"division by zero"}
+```
+
+Operands must be JSON numbers. For example, a string operand is rejected with HTTP `400 Bad Request`:
+
+```sh
+curl -i http://localhost:8080/api/calculate \
+  -H 'Content-Type: application/json' \
+  -d '{"operation":"add","a":"12","b":5}'
+# HTTP/1.1 400 Bad Request
+# {"error":"field a must be a valid number"}
+```
+
+The health check is `GET /health`:
+
+```sh
+curl -i http://localhost:8080/health
+# HTTP/1.1 200 OK
+# {"status":"ok"}
+```
 
 ## Logging
 
@@ -92,6 +135,7 @@ If Go and Node.js are already installed locally, run the suites directly:
 ## Design decisions and assumptions
 
 - The API is stateless and keeps all arithmetic rules in a small pure function, making it easy to test without a database or framework.
+- The functionality skips evaluating an entire arithmentic expression of multiple operands for now. Still waiting for that clarity from the team.
 - The endpoint accepts one operation request at a time; this keeps the contract explicit and avoids duplicating arithmetic semantics in the UI.
 - The frontend uses a typed API client and separate display/input state. It does not evaluate user-entered strings as code.
 - Operands are limited to ±1 trillion to bound inputs while staying below the exact integer range of `float64`; calculated results are separately checked for finiteness.
