@@ -17,8 +17,8 @@ ENTRYPOINT ["/calculator"]
 # Build the React frontend.
 FROM node:24-alpine AS frontend-build
 WORKDIR /app
-COPY frontend/package.json ./
-RUN npm install
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
 COPY frontend/index.html frontend/tsconfig.json frontend/vite.config.ts ./
 COPY frontend/src ./src
 COPY scripts ./scripts
