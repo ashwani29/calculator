@@ -1,0 +1,15 @@
+github.com/ashwani29/calculator/backend/internal/calculator/calculator.go:29:	Calculate		100.0%
+github.com/ashwani29/calculator/backend/internal/calculator/calculator.go:38:	Calculate		100.0%
+github.com/ashwani29/calculator/backend/internal/calculator/calculator.go:63:	Calculate		100.0%
+github.com/ashwani29/calculator/backend/internal/calculator/calculator.go:87:	isFinite		100.0%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:28:		Handler			100.0%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:36:		health			100.0%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:45:		WriteHeader		75.0%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:54:		Write			66.7%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:62:		requestLogger		92.3%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:83:		calculate		90.5%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:109:	writeDecodeError	100.0%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:127:	writeCalculationError	100.0%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:136:	writeJSON		100.0%
+github.com/ashwani29/calculator/backend/internal/httpapi/handler.go:142:	cors			75.0%
+total:										(statements)		92.6%

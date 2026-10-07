@@ -1,0 +1,221 @@
+ Image calculator-backend-test Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 565B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.06kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/golang:1.27-alpine
+#3 DONE 1.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 135B done
+#4 DONE 0.0s
+
+#5 [backend-build 1/7] FROM docker.io/library/golang:1.27-alpine@sha256:8a5910f31396cd4d89662f56c68b3ae31d374308270a1c3bd96672ee5ed43414
+#5 resolve docker.io/library/golang:1.27-alpine@sha256:8a5910f31396cd4d89662f56c68b3ae31d374308270a1c3bd96672ee5ed43414 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 4.88kB done
+#6 DONE 0.0s
+
+#7 [backend-build 2/7] WORKDIR /src/backend
+#7 CACHED
+
+#8 [backend-build 3/7] COPY backend/go.mod ./go.mod
+#8 CACHED
+
+#9 [backend-build 4/7] COPY backend/cmd ./cmd
+#9 DONE 0.0s
+
+#10 [backend-build 5/7] COPY backend/internal ./internal
+#10 DONE 0.0s
+
+#11 [backend-build 6/7] COPY backend/tests ./tests
+#11 DONE 0.0s
+
+#12 [backend-build 7/7] RUN mkdir -p /out && CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/calculator ./cmd/server
+#12 DONE 3.3s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 1.5s done
+#13 exporting manifest sha256:6fdfe7ab5f64234cabbc197b7da980e00307f822089b8cfd769817888f4165c1 done
+#13 exporting config sha256:3e28aacd978fa9ba027b1fc111132097f50758b63eb4ed0d19d7fa92a37cb52d done
+#13 exporting attestation manifest sha256:520581f58ecbc9e48c3fed66bca638052c22987afad895fcc7ede27fa9d65029 done
+#13 exporting manifest list sha256:6dd1f697b08247ce641595eac1e33734314e15a9030204d59e620d69a45ce58b done
+#13 naming to docker.io/library/calculator-backend-test:latest done
+#13 unpacking to docker.io/library/calculator-backend-test:latest
+#13 unpacking to docker.io/library/calculator-backend-test:latest 0.3s done
+#13 DONE 1.8s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ Image calculator-backend-test Built 
+ Container calculator-backend-test-run-963ef618ea8e Creating 
+ Container calculator-backend-test-run-963ef618ea8e Created 
+=== RUN   TestCalculate
+=== RUN   TestCalculate/addition
+=== RUN   TestCalculate/subtraction
+=== RUN   TestCalculate/multiplication
+=== RUN   TestCalculate/division
+=== RUN   TestCalculate/power
+=== RUN   TestCalculate/square_root
+=== RUN   TestCalculate/percentage
+=== RUN   TestCalculate/maximum_operand_is_inclusive
+=== RUN   TestCalculate/minimum_operand_is_inclusive
+=== RUN   TestCalculate/first_operand_above_maximum
+=== RUN   TestCalculate/second_operand_below_minimum
+=== RUN   TestCalculate/non-finite_operand
+=== RUN   TestCalculate/zero_divisor
+=== RUN   TestCalculate/negative_root
+=== RUN   TestCalculate/missing_operand
+=== RUN   TestCalculate/missing_value
+=== RUN   TestCalculate/unknown_operation
+=== RUN   TestCalculate/non-finite
+--- PASS: TestCalculate (0.00s)
+    --- PASS: TestCalculate/addition (0.00s)
+    --- PASS: TestCalculate/subtraction (0.00s)
+    --- PASS: TestCalculate/multiplication (0.00s)
+    --- PASS: TestCalculate/division (0.00s)
+    --- PASS: TestCalculate/power (0.00s)
+    --- PASS: TestCalculate/square_root (0.00s)
+    --- PASS: TestCalculate/percentage (0.00s)
+    --- PASS: TestCalculate/maximum_operand_is_inclusive (0.00s)
+    --- PASS: TestCalculate/minimum_operand_is_inclusive (0.00s)
+    --- PASS: TestCalculate/first_operand_above_maximum (0.00s)
+    --- PASS: TestCalculate/second_operand_below_minimum (0.00s)
+    --- PASS: TestCalculate/non-finite_operand (0.00s)
+    --- PASS: TestCalculate/zero_divisor (0.00s)
+    --- PASS: TestCalculate/negative_root (0.00s)
+    --- PASS: TestCalculate/missing_operand (0.00s)
+    --- PASS: TestCalculate/missing_value (0.00s)
+    --- PASS: TestCalculate/unknown_operation (0.00s)
+    --- PASS: TestCalculate/non-finite (0.00s)
+=== RUN   TestCalculateHandler
+=== RUN   TestCalculateHandler/valid
+=== RUN   TestCalculateHandler/invalid_JSON
+=== RUN   TestCalculateHandler/string_operand
+=== RUN   TestCalculateHandler/boolean_operand
+=== RUN   TestCalculateHandler/non-string_operation
+=== RUN   TestCalculateHandler/missing_operand
+=== RUN   TestCalculateHandler/zero_division
+=== RUN   TestCalculateHandler/operand_above_maximum
+=== RUN   TestCalculateHandler/extra_field
+--- PASS: TestCalculateHandler (0.00s)
+    --- PASS: TestCalculateHandler/valid (0.00s)
+    --- PASS: TestCalculateHandler/invalid_JSON (0.00s)
+    --- PASS: TestCalculateHandler/string_operand (0.00s)
+    --- PASS: TestCalculateHandler/boolean_operand (0.00s)
+    --- PASS: TestCalculateHandler/non-string_operation (0.00s)
+    --- PASS: TestCalculateHandler/missing_operand (0.00s)
+    --- PASS: TestCalculateHandler/zero_division (0.00s)
+    --- PASS: TestCalculateHandler/operand_above_maximum (0.00s)
+    --- PASS: TestCalculateHandler/extra_field (0.00s)
+=== RUN   TestHealth
+--- PASS: TestHealth (0.00s)
+=== RUN   TestRequestLoggerRecordsRequestMetadataWithoutOperands
+--- PASS: TestRequestLoggerRecordsRequestMetadataWithoutOperands (0.00s)
+PASS
+coverage: 93.3% of statements in ./internal/...
+ok  	github.com/ashwani29/calculator/backend/tests	0.002s	coverage: 93.3% of statements in ./internal/...
+ Image calculator-frontend-test Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 570B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.06kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24-alpine
+#3 DONE 1.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 135B done
+#4 DONE 0.0s
+
+#5 [frontend-build 1/8] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#5 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 28.05kB done
+#6 DONE 0.0s
+
+#7 [frontend-build 2/8] WORKDIR /app
+#7 CACHED
+
+#8 [frontend-build 3/8] COPY frontend/package.json ./
+#8 CACHED
+
+#9 [frontend-build 4/8] RUN npm install
+#9 CACHED
+
+#10 [frontend-build 5/8] COPY frontend/index.html frontend/tsconfig.json frontend/vite.config.ts ./
+#10 CACHED
+
+#11 [frontend-build 6/8] COPY frontend/src ./src
+#11 DONE 0.0s
+
+#12 [frontend-build 7/8] COPY scripts ./scripts
+#12 DONE 0.0s
+
+#13 [frontend-build 8/8] RUN npm run build
+#13 0.132 
+#13 0.132 > orbit-calculator-web@1.0.0 build
+#13 0.132 > tsc -b && vite build
+#13 0.132 
+#13 0.859 vite v5.4.21 building for production...
+#13 0.883 transforming...
+#13 4.986 ✓ 32 modules transformed.
+#13 5.028 rendering chunks...
+#13 5.031 computing gzip size...
+#13 5.035 dist/index.html                   0.41 kB │ gzip:  0.29 kB
+#13 5.035 dist/assets/index-BTHkwvkE.css    5.14 kB │ gzip:  1.79 kB
+#13 5.035 dist/assets/index-DNwBqnNi.js   147.85 kB │ gzip: 47.86 kB
+#13 5.035 ✓ built in 4.16s
+#13 DONE 5.1s
+
+#14 exporting to image
+#14 exporting layers 0.0s done
+#14 exporting manifest sha256:45e7ad5a751e9a1c59bf0b260af9da6b7a064a2afaea3b98108079940a1495cd done
+#14 exporting config sha256:487ba6d5cbaceb4bc7fa106c23ff566b178c031248ef8de4028a805e785831bc done
+#14 exporting attestation manifest sha256:e6fb0a503e17a361f3f16418086876ec3ebc53d041cb5f6b2c3e2103ed77208a done
+#14 exporting manifest list sha256:d28bd22e7dfbe4f711cc961361725f4a07238538bd803f23623bf89339123f33 done
+#14 naming to docker.io/library/calculator-frontend-test:latest done
+#14 unpacking to docker.io/library/calculator-frontend-test:latest 0.0s done
+#14 DONE 0.1s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image calculator-frontend-test Built 
+ Container calculator-frontend-test-run-bdd50cb7c295 Creating 
+ Container calculator-frontend-test-run-bdd50cb7c295 Created 
+
+> orbit-calculator-web@1.0.0 test
+> vitest --run --coverage --coverage.reportsDirectory=/reports/frontend/details
+
+
+ RUN  v2.1.9 /app
+      Coverage enabled with v8
+
+ ✓ src/test/App.test.tsx (4 tests) 179ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  22:49:15
+   Duration  708ms (transform 43ms, setup 29ms, collect 65ms, tests 179ms, environment 169ms, prepare 36ms)
+
+ % Coverage report from v8
+----------|---------|----------|---------|---------|----------------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s          
+----------|---------|----------|---------|---------|----------------------------
+All files |   90.23 |    78.57 |      75 |   90.23 |                            
+ App.tsx  |   92.63 |    85.29 |   77.77 |   92.63 | ...-62,64-66,79-83,163-164 
+ api.ts   |      90 |    57.14 |     100 |      90 | 27-28                      
+ main.tsx |       0 |        0 |       0 |       0 | 1-6                        
+----------|---------|----------|---------|---------|----------------------------
