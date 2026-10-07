@@ -1,0 +1,40 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  backend-test:
+    profiles: ["test"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend-build
+    command: ["sh", "-c", "mkdir -p /reports/backend && go test -v -coverpkg=./internal/... -coverprofile=/reports/backend/coverage.out ./tests && go tool cover -func=/reports/backend/coverage.out > /reports/backend/functions.txt && go tool cover -html=/reports/backend/coverage.out -o /reports/backend/details.html"]
+    volumes:
+      - ./coverage:/reports
+
+  frontend-test:
+    profiles: ["test"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend-build
+    command: ["sh", "-c", "npm test -- --run --coverage --coverage.reportsDirectory=/reports/frontend/details && node scripts/render-coverage-reports.mjs /reports"]
+    volumes:
+      - ./coverage:/reports
